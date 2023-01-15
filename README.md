@@ -4,7 +4,7 @@ ReactJS widget for car comprehensive insurance calculation and ordering.
 
 Live demo page: https://zastrahovaite.com/service/kaskoto/ (integrated in a WP website)
 
-User tools:
+Used tools:
 
 - [Vite](https://vitejs.dev/) - Next generation frontend tooling
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
