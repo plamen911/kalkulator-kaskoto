@@ -3,7 +3,7 @@
     color: rgb(255, 255, 255);
 }
 
-.casco-wrapper .btn, .casco-wrapper .pagination .active .page-link {
+.casco-wrapper .btn, .casco-wrapper .pagination .active .page-link, .casco-btn {
     border: 1px solid whitesmoke;
     /* background-color: #5f2421; */
     background-color: #8b2131;

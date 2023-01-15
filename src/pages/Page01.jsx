@@ -132,6 +132,7 @@ export default () => {
                       <Button
                         color="primary"
                         onClick={() => chooseOffer('expert_evaluation')}
+                        className="casco-btn"
                       >
                         Избери <i className="fas fa-chevron-right"></i>
                       </Button>
@@ -159,6 +160,7 @@ export default () => {
                       <Button
                         color="primary"
                         onClick={() => chooseOffer('trusted_service')}
+                        className="casco-btn"
                       >
                         Избери <i className="fas fa-chevron-right"></i>
                       </Button>
@@ -171,15 +173,13 @@ export default () => {
                 </div>
               </div>
               <ReactTooltip
-                style={{width: '300px', color: 'black'}}
-                variant="warning"
+                style={{width: '300px', color: 'black', backgroundColor: 'whitesmoke'}}
                 anchorId="expert-evaluation"
                 place="top"
                 content="Застрахователната компания оценява щетите по автомобила и изплаща обезщетение в брой или по банков път. Клиентът сам се договаря и разплаща с избран от него сервиз за ремонт на автомобила."
               />
               <ReactTooltip
-                style={{width: '300px', color: 'black'}}
-                variant="warning"
+                style={{width: '300px', color: 'black', backgroundColor: 'whitesmoke'}}
                 anchorId="trusted-service"
                 place="top"
                 content="Застрахователната компания се разплаща директно с автосервиза, който ремонтира автомобила. В този случай няма риск за клиента обезщетението да не е достатъчно за покриване на щетите."
