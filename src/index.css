@@ -17,3 +17,7 @@
 .casco-wrapper .list-group {
     color: black;
 }
+
+.casco-wrapper .invalid-tooltip {
+    min-width: max-content;
+}

@@ -467,7 +467,7 @@ export default () => {
                             value={i}
                             invalid={errors.hasOwnProperty('missingAgreements') && typeof errors.missingAgreements[i] !== 'undefined'}
                           />
-                          <Label key={`label-${i}`} check hidden={true}>
+                          <Label key={`label-${i}`} check className="d-none">
                             Agreement {i}
                           </Label>
                           <FormFeedback key={`feedback-${i}`} tooltip>
