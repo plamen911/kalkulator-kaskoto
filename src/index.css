@@ -1,0 +1,19 @@
+.casco-wrapper {
+    background-color: #8b2131;
+    color: rgb(255, 255, 255);
+}
+
+.casco-wrapper .btn, .casco-wrapper .pagination .active .page-link {
+    border: 1px solid whitesmoke;
+    /* background-color: #5f2421; */
+    background-color: #8b2131;
+    color: #ffffff;
+}
+
+.invalid-feedback {
+    color: rgb(255, 218, 185);
+}
+
+.casco-wrapper .list-group {
+    color: black;
+}
