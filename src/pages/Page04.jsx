@@ -38,6 +38,7 @@ export default () => {
   const [hasLostKeys, setHasLostKeys] = useState(cartData.has_lost_keys)
   const [pastTheft, setPastTheft] = useState(cartData.past_theft)
   const [futurePledge, setFuturePledge] = useState(cartData.future_pledge)
+  const [checkedAgreements, setCheckedAgreements] = useState({})
 
   const goBack = () => {
     dispatch(cartActions.update({
@@ -58,6 +59,17 @@ export default () => {
 
   const goNext = async () => {
     setErrors({})
+
+    // Agreements check
+    const requiredAgreements = cartData.initial_data.agreements;
+    const missingAgreements = requiredAgreements.filter((a, i) => typeof checkedAgreements[i] === 'undefined');
+
+    if (missingAgreements.length > 0) {
+      setErrors({missingAgreements})
+      dispatch(cartActions.update({checked_agreements: checkedAgreements}))
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -92,6 +104,26 @@ export default () => {
     } catch (err) {
       setLoading(false)
       setErrors(parseErrors(err))
+    }
+  }
+
+  const agreementHandler = e => {
+    const idx = +e.target.value
+
+    if (e.target.checked) {
+      setCheckedAgreements(prevState => {
+        return {
+          ...prevState,
+          [idx]: idx
+        }
+      })
+    } else {
+      setCheckedAgreements(prevState => {
+        let modifiedState = {...prevState}
+        delete modifiedState[idx]
+
+        return modifiedState;
+      })
     }
   }
 
@@ -216,7 +248,7 @@ export default () => {
                 </FormGroup>
               </Col>
             </Row>
-            <Row>
+            <Row className="border-bottom pb-3 mb-3">
               <Col>
                 <h4><i className="fas fa-list"></i> Допълнителни данни</h4>
                 <ListGroup>
@@ -412,6 +444,49 @@ export default () => {
                       </Col>
                     </Row>
                   </ListGroupItem>
+                </ListGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <ListGroup>
+                  {cartData && cartData.initial_data && cartData.initial_data.agreements.map((item, i) => (
+                    <ListGroupItem key={`list-group-${i}`}>
+                      <div key={`wrap-${i}`} className="d-flex justify-content-start">
+                        <FormGroup
+                          check
+                          inline
+                          key={`form-group-${i}`}
+                        >
+                          <Input
+                            type="checkbox"
+                            key={`agreement-${i}`}
+                            id={`agreement-${i}`}
+                            onChange={agreementHandler}
+                            checked={typeof checkedAgreements[i] !== 'undefined'}
+                            value={i}
+                            invalid={errors.hasOwnProperty('missingAgreements') && typeof errors.missingAgreements[i] !== 'undefined'}
+                          />
+                          <Label key={`label-${i}`} check hidden={true}>
+                            Agreement {i}
+                          </Label>
+                          <FormFeedback key={`feedback-${i}`} tooltip>
+                            Трябва да приемете споразумение {i + 1}, за да продължите.
+                          </FormFeedback>
+                        </FormGroup>
+                        <div key={`agreement-wrapper-${i}`}>
+                          <span key={`span-text-${i}`}>{item.text}{` `}</span>
+                          {item.links && item.links.map((link, j) => (
+                            <>
+                              <a href={link.href} target="_blank" key={`doc-${i}-${j}`}>
+                                {link.text}
+                              </a>{` | `}
+                            </>
+                          ))}
+                        </div>
+                      </div>
+                    </ListGroupItem>
+                  ))}
                 </ListGroup>
               </Col>
             </Row>
