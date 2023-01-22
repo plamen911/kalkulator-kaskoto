@@ -20,6 +20,8 @@ import CascoCard from '../components/layout/CascoCard.jsx'
 import MyClipLoader from '../components/ui/MyClipLoader.jsx'
 import { parseErrors } from '../utils/utils.js'
 import Requester from '../utils/Requester.js'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default () => {
   const cartData = useSelector(state => state.cart.data)
@@ -478,9 +480,16 @@ export default () => {
                           <span key={`span-text-${i}`}>{item.text}{` `}</span>
                           {item.links && item.links.map((link, j) => (
                             <>
-                              <a href={link.href} target="_blank" key={`doc-${i}-${j}`}>
-                                {link.text}
-                              </a>{` | `}
+                              <a
+                                href={link.href}
+                                target="_blank"
+                                key={`doc-${i}-${j}`}
+                                className="company-color"
+                                style={{marginRight: '10px'}}
+                              >
+                                <FontAwesomeIcon icon={faCheck}/>
+                                {` `}{link.text}
+                              </a>
                             </>
                           ))}
                         </div>

@@ -10,6 +10,10 @@
     color: #ffffff;
 }
 
+.casco-btn:hover {
+    background-color: black;
+}
+
 .invalid-feedback {
     color: rgb(255, 218, 185);
 }
@@ -20,4 +24,8 @@
 
 .casco-wrapper .invalid-tooltip {
     min-width: max-content;
+}
+
+.company-color {
+    color: #8b2131;
 }

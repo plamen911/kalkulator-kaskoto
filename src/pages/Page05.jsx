@@ -23,10 +23,13 @@ export default () => {
             </h4>
             <ListGroup>
               <ListGroupItem>
-                НОМЕР НА ПОРЪЧКАТА: <strong>{cartData.order.order_num}</strong>
+                НОМЕР НА ПОРЪЧКАТА:
+                <strong className="company-color">{cartData.order.order_num}</strong>
               </ListGroupItem>
               <ListGroupItem>
-                Екипът на <strong>ЗБ "Дженерал Брокер Клуб"</strong> ООД Ви благодари за направения избор.
+                Екипът на
+                <strong className="company-color">ЗБ "Дженерал Брокер Клуб" ООД</strong>
+                Ви благодари за направения избор.
               </ListGroupItem>
               <ListGroupItem>
                 Нашите експерти ще обработят заявката и ще се свържат с Вас по телефон или имейл за уточняване на

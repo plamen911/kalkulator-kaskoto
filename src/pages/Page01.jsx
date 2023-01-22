@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'reactstrap'
+import { faCircleInfo, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { Button, ListGroup, ListGroupItem } from 'reactstrap'
 
 import { cartActions } from '../store/cart'
 import Requester from '../utils/Requester'
@@ -93,84 +93,101 @@ export default () => {
           {cartData && cartData.selected_price ? (
             <div className="row">
               <div className="col-12 mt-4">
-                <h4 style={{color: '#8b2131'}} className="text-center">
+                <h4 className="text-center company-color">
                   Застрахователна стойност: {formatCurrency(cartData.selected_price.insurance_amount)}
                 </h4>
                 <table className="table mt-3">
                   <thead>
-                  <tr>
-                    <th scope="col">Начин на обезщетяване</th>
-                    <th scope="col">Стандартна цена</th>
-                    <th scope="col">
-                      <h5 className="mb-0">
-                        Цена с {cartData && cartData.initial_data && +cartData.initial_data.discount_percents}% ОТСТЪПКА
-                      </h5>
-                    </th>
-                    <th scope="col">{` `}</th>
-                  </tr>
+                    <tr>
+                      <th scope="col">Начин на обезщетяване</th>
+                      <th scope="col">Стандартна цена</th>
+                      <th scope="col">
+                        <h5 className="mb-0">
+                          Цена с {cartData && cartData.initial_data && +cartData.initial_data.discount_percents}% ОТСТЪПКА
+                        </h5>
+                      </th>
+                      <th scope="col">{` `}</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>
-                      По Експертна оценка {` `}
-                      <span id="expert-evaluation">
-                        <FontAwesomeIcon
-                          icon={faCircleInfo}
-                          style={{color: '#8b2131', marginLeft: '6px'}}
-                        />
-                      </span>
-                    </td>
-                    <td>{formatCurrency(cartData.selected_price.expert_evaluation.standard_price)}</td>
-                    <td>
-                      <h5 style={{color: '#8b2131'}} className="mb-0">
-                    <span className="pulse rounded">
-                      {formatCurrency(cartData.selected_price.expert_evaluation.discount_price)}
-                    </span>
-                      </h5>
-                    </td>
-                    <td>
-                      <Button
-                        color="primary"
-                        onClick={() => chooseOffer('expert_evaluation')}
-                        className="casco-btn"
-                      >
-                        Избери <i className="fas fa-chevron-right"></i>
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      C право на Доверен сервиз {` `}
-                      <span id="trusted-service">
-                        <FontAwesomeIcon
-                          icon={faCircleInfo}
-                          style={{color: '#8b2131', marginLeft: '6px'}}
-                        />
-                      </span>
-                    </td>
-                    <td>{formatCurrency(cartData.selected_price.trusted_service.standard_price)}</td>
-                    <td>
-                      <h5 style={{color: '#8b2131'}} className="mb-0">
-                        <span className="pulse rounded">
-                          {formatCurrency(cartData.selected_price.trusted_service.discount_price)}
+                    <tr>
+                      <td>
+                        По Експертна оценка {` `}
+                        <span id="expert-evaluation">
+                          <FontAwesomeIcon
+                            icon={faCircleInfo}
+                            className="company-color"
+                          />
                         </span>
-                      </h5>
-                    </td>
-                    <td>
-                      <Button
-                        color="primary"
-                        onClick={() => chooseOffer('trusted_service')}
-                        className="casco-btn"
-                      >
-                        Избери <i className="fas fa-chevron-right"></i>
-                      </Button>
-                    </td>
-                  </tr>
+                      </td>
+                      <td>
+                        {formatCurrency(cartData.selected_price.expert_evaluation.standard_price)}
+                      </td>
+                      <td>
+                        <h5 className="mb-0 company-color">
+                          <span className="pulse rounded">
+                            {formatCurrency(cartData.selected_price.expert_evaluation.discount_price)}
+                          </span>
+                        </h5>
+                      </td>
+                      <td>
+                        <Button
+                          color="primary"
+                          onClick={() => chooseOffer('expert_evaluation')}
+                          className="casco-btn"
+                        >
+                          Избери <i className="fas fa-chevron-right"></i>
+                        </Button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        C право на Доверен сервиз {` `}
+                        <span id="trusted-service">
+                          <FontAwesomeIcon
+                            icon={faCircleInfo}
+                            className="company-color"
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        {formatCurrency(cartData.selected_price.trusted_service.standard_price)}
+                      </td>
+                      <td>
+                        <h5 className="mb-0">
+                          <span className="pulse rounded company-color">
+                            {formatCurrency(cartData.selected_price.trusted_service.discount_price)}
+                          </span>
+                        </h5>
+                      </td>
+                      <td>
+                        <Button
+                          color="primary"
+                          onClick={() => chooseOffer('trusted_service')}
+                          className="casco-btn"
+                        >
+                          Избери <i className="fas fa-chevron-right"></i>
+                        </Button>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
                 <div className="text-muted text-center sm mt-3">
-                  * В посочените цени не е включен 2% данък върху застрахователните премии.
+                  * В посочените цени е включен 2% данък върху застрахователните премии.
                 </div>
+                <ListGroup className="mt-4">
+                  {cartData && cartData.initial_data && cartData.initial_data.documents.map((document, index) => (
+                    <ListGroupItem
+                      action
+                      key={index}
+                    >
+                      <a href={document.href} target="_blank" className="company-color">
+                        <FontAwesomeIcon icon={faCheck}/>
+                        {` `}{document.text}
+                      </a>
+                    </ListGroupItem>
+                  ))}
+                </ListGroup>
               </div>
               <ReactTooltip
                 style={{width: '300px', color: 'black', backgroundColor: 'whitesmoke'}}
