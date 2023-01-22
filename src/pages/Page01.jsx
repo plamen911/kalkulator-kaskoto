@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'reactstrap'
 
 import { cartActions } from '../store/cart'
@@ -112,13 +112,13 @@ export default () => {
                   <tbody>
                   <tr>
                     <td>
-                      По Експертна оценка {' '}
+                      По Експертна оценка {` `}
                       <span id="expert-evaluation">
-                    <FontAwesomeIcon
-                      icon={faExclamationCircle}
-                      style={{color: '#f0ad4e'}}
-                    />
-                  </span>
+                        <FontAwesomeIcon
+                          icon={faCircleInfo}
+                          style={{color: '#8b2131', marginLeft: '6px'}}
+                        />
+                      </span>
                     </td>
                     <td>{formatCurrency(cartData.selected_price.expert_evaluation.standard_price)}</td>
                     <td>
@@ -140,20 +140,20 @@ export default () => {
                   </tr>
                   <tr>
                     <td>
-                      C право на Доверен сервиз {' '}
+                      C право на Доверен сервиз {` `}
                       <span id="trusted-service">
-                    <FontAwesomeIcon
-                      icon={faExclamationCircle}
-                      style={{color: '#f0ad4e'}}
-                    />
-                  </span>
+                        <FontAwesomeIcon
+                          icon={faCircleInfo}
+                          style={{color: '#8b2131', marginLeft: '6px'}}
+                        />
+                      </span>
                     </td>
                     <td>{formatCurrency(cartData.selected_price.trusted_service.standard_price)}</td>
                     <td>
                       <h5 style={{color: '#8b2131'}} className="mb-0">
-                    <span className="pulse rounded">
-                      {formatCurrency(cartData.selected_price.trusted_service.discount_price)}
-                    </span>
+                        <span className="pulse rounded">
+                          {formatCurrency(cartData.selected_price.trusted_service.discount_price)}
+                        </span>
                       </h5>
                     </td>
                     <td>
