@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const API_URL = 'https://daike.eu/api/kaskoto'
+//const API_URL = 'http://localhost:3000/api/kaskoto'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 

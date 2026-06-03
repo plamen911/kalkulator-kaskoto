@@ -1,7 +1,7 @@
 export const formatCurrency = number => {
   return new Intl.NumberFormat('bg-BG', {
     style: 'currency',
-    currency: 'BGN',
+    currency: 'EUR',
     useGrouping: 'always'
   }).format(number)
 }

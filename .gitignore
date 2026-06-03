@@ -22,6 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-dist
-node_modules
 myreadme.md
+
+# FTP deploy credentials
+deploy.env
+deploy.sh
+CLAUDE.md
+.htaccess_bkp_2025-04-06
