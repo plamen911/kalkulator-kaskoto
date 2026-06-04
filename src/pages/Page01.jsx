@@ -36,6 +36,22 @@ export default () => {
     }
   }, [])
 
+  // Deep link support: pre-select the price from a `?price=` URL param once the
+  // amounts are loaded (e.g. /c/kaskoto?price=5624.21 from an ad / QR / other calculator).
+  useEffect(() => {
+    if (!cartData?.initial_data?.amounts?.length || cartData.selected_price) return
+
+    const price = new URLSearchParams(window.location.search).get('price')
+    if (!price) return
+
+    const found = cartData.initial_data.amounts.find(
+      a => +a.insurance_amount === +price
+    )
+    if (found) {
+      dispatch(cartActions.update({selected_price: found}))
+    }
+  }, [cartData.initial_data])
+
   const handleChange = e => {
     const found = cartData.initial_data.amounts.filter(a => +a.insurance_amount === +e.target.value)
 
