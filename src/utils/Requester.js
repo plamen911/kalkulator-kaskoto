@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const API_URL = 'https://daike.eu/api/kaskoto'
+// Defaults to the direct backend (WordPress embed / local). On Cloudflare the
+// VITE_API_URL build env var points this at the same-origin proxy (/api/kaskoto).
+const API_URL = import.meta.env.VITE_API_URL || 'https://daike.eu/api/kaskoto'
 //const API_URL = 'http://localhost:3000/api/kaskoto'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
