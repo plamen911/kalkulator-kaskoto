@@ -24,11 +24,11 @@ export default () => {
             <ListGroup>
               <ListGroupItem>
                 НОМЕР НА ПОРЪЧКАТА:
-                <strong className="company-color">{cartData.order.order_num}</strong>
+                {` `}<strong className="company-color">{cartData.order.order_num}</strong>
               </ListGroupItem>
               <ListGroupItem>
-                Екипът на
-                <strong className="company-color">ЗБ "Дженерал Брокер Клуб" ООД</strong>
+                Екипът на <strong className="company-color">{cartData.initial_data?.our_broker_name}</strong>, част от
+                {` `}<strong className="company-color">{cartData.initial_data?.our_office_name}</strong>,
                 Ви благодари за направения избор.
               </ListGroupItem>
               <ListGroupItem>
