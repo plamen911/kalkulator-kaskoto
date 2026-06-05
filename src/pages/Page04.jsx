@@ -85,6 +85,8 @@ export default () => {
         vehicle_id: +cartData.vehicle.id,
         usage_id: +cartData.usage_id,
         wheel_position: +cartData.wheel_position,
+        cabriolet: +cartData.cabriolet,
+        taxi_training: +cartData.taxi_training,
         client_names: clientNames,
         id_number: idNumber,
         address: address,

@@ -15,6 +15,8 @@ const initialState = {
     reg_cert_no: '',
     usage_id: '',
     wheel_position: '2',
+    cabriolet: '2',
+    taxi_training: '2',
     vehicle: null,
     // page 4
     client_names: '',
