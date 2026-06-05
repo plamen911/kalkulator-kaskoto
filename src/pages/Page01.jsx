@@ -87,7 +87,7 @@ export default () => {
               <div className="mb-1 mt-2 mb-3">
                 <div className="form-group">
                   <label htmlFor="priceSelect" className="form-label">
-                    Изберете на каква стойност да застраховате автомобила си и вижте цената
+                    За леки автомобили до 9 места и товарни до 3.5 т.
                   </label>
                   <select
                     id="priceSelect"

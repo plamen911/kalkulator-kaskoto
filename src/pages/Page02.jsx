@@ -270,7 +270,7 @@ export default () => {
             )}
             <div className="d-flex justify-start mt-3">
               <Label for="taxi-training-yes" className="mr-3 mb-0">
-                ТАКСИ/УЧЕБЕН АВТОМОБИЛ?
+                ТАКСИ/УЧЕБЕН?
               </Label>
               &nbsp; &nbsp;
               <div className="custom-control custom-radio custom-control-inline">
