@@ -76,6 +76,23 @@ export default () => {
     dispatch(cartActions.update(payload))
   }
 
+  const offers = [
+    {
+      type: 'expert_evaluation',
+      label: 'По Експертна оценка',
+      tooltipId: 'expert-evaluation',
+      tooltip: 'Застрахователната компания оценява щетите по автомобила и изплаща обезщетение в брой или по банков път. Клиентът сам се договаря и разплаща с избран от него сервиз за ремонт на автомобила.',
+    },
+    {
+      type: 'trusted_service',
+      label: 'C право на Доверен сервиз',
+      tooltipId: 'trusted-service',
+      tooltip: 'Застрахователната компания се разплаща директно с автосервиза, който ремонтира автомобила. В този случай няма риск за клиента обезщетението да не е достатъчно за покриване на щетите.',
+    },
+  ]
+
+  const discountPercents = cartData && cartData.initial_data && +cartData.initial_data.discount_percents
+
   return (
     <Layout>
       {loading ? (
@@ -87,7 +104,7 @@ export default () => {
               <div className="mb-1 mt-2 mb-3">
                 <div className="form-group">
                   <label htmlFor="priceSelect" className="form-label">
-                    За леки автомобили до 9 места и товарни до 3.5 т.
+                    За лек автомобил до 9 места и товарен до 3.5 т.
                   </label>
                   <select
                     id="priceSelect"
@@ -112,82 +129,85 @@ export default () => {
                 <h4 className="text-center company-color">
                   Застрахователна стойност: {formatCurrency(cartData.selected_price.insurance_amount)}
                 </h4>
-                <table className="table mt-3">
+                <table className="table mt-3 d-none d-md-table">
                   <thead>
                     <tr>
                       <th scope="col">Начин на обезщетяване</th>
                       <th scope="col">Стандартна цена</th>
                       <th scope="col">
                         <h5 className="mb-0">
-                          Цена с {cartData && cartData.initial_data && +cartData.initial_data.discount_percents}% ОТСТЪПКА
+                          Цена с {discountPercents}% ОТСТЪПКА
                         </h5>
                       </th>
                       <th scope="col">{` `}</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        По Експертна оценка {` `}
-                        <span id="expert-evaluation">
-                          <FontAwesomeIcon
-                            icon={faCircleInfo}
-                            className="company-color"
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        {formatCurrency(cartData.selected_price.expert_evaluation.standard_price)}
-                      </td>
-                      <td>
-                        <h5 className="mb-0 company-color">
-                          <span className="pulse rounded">
-                            {formatCurrency(cartData.selected_price.expert_evaluation.discount_price)}
+                    {offers.map(offer => (
+                      <tr key={offer.type}>
+                        <td>
+                          {offer.label} {` `}
+                          <span id={offer.tooltipId}>
+                            <FontAwesomeIcon
+                              icon={faCircleInfo}
+                              className="company-color"
+                            />
                           </span>
-                        </h5>
-                      </td>
-                      <td>
-                        <Button
-                          color="primary"
-                          onClick={() => chooseOffer('expert_evaluation')}
-                          className="casco-btn"
-                        >
-                          Избери <i className="fas fa-chevron-right"></i>
-                        </Button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        C право на Доверен сервиз {` `}
-                        <span id="trusted-service">
-                          <FontAwesomeIcon
-                            icon={faCircleInfo}
-                            className="company-color"
-                          />
-                        </span>
-                      </td>
-                      <td>
-                        {formatCurrency(cartData.selected_price.trusted_service.standard_price)}
-                      </td>
-                      <td>
-                        <h5 className="mb-0">
-                          <span className="pulse rounded company-color">
-                            {formatCurrency(cartData.selected_price.trusted_service.discount_price)}
-                          </span>
-                        </h5>
-                      </td>
-                      <td>
-                        <Button
-                          color="primary"
-                          onClick={() => chooseOffer('trusted_service')}
-                          className="casco-btn"
-                        >
-                          Избери <i className="fas fa-chevron-right"></i>
-                        </Button>
-                      </td>
-                    </tr>
+                        </td>
+                        <td>
+                          {formatCurrency(cartData.selected_price[offer.type].standard_price)}
+                        </td>
+                        <td>
+                          <h5 className="mb-0 company-color">
+                            <span className="pulse rounded">
+                              {formatCurrency(cartData.selected_price[offer.type].discount_price)}
+                            </span>
+                          </h5>
+                        </td>
+                        <td>
+                          <Button
+                            color="primary"
+                            onClick={() => chooseOffer(offer.type)}
+                            className="casco-btn"
+                          >
+                            Избери <i className="fas fa-chevron-right"></i>
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
+                <div className="d-md-none mt-3">
+                  {offers.map(offer => (
+                    <div key={offer.type} className="border rounded p-3 mb-3">
+                      <div className="fw-bold mb-2">
+                        {offer.label} {` `}
+                        <span id={`${offer.tooltipId}-m`}>
+                          <FontAwesomeIcon
+                            icon={faCircleInfo}
+                            className="company-color"
+                          />
+                        </span>
+                      </div>
+                      <div className="mb-1">
+                        Стандартна цена: {formatCurrency(cartData.selected_price[offer.type].standard_price)}
+                      </div>
+                      <div className="mb-3">
+                        {discountPercents}% ОТСТЪПКА: {` `}
+                        <span className="pulse rounded company-color fw-bold">
+                          {formatCurrency(cartData.selected_price[offer.type].discount_price)}
+                        </span>
+                      </div>
+                      <Button
+                        color="primary"
+                        onClick={() => chooseOffer(offer.type)}
+                        className="casco-btn w-100"
+                      >
+                        Избери <i className="fas fa-chevron-right"></i>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
                 <div className="text-muted text-center sm mt-3">
                   * В посочените цени е включен 2% данък върху застрахователните премии.
                 </div>
@@ -205,18 +225,17 @@ export default () => {
                   ))}
                 </ListGroup>
               </div>
-              <ReactTooltip
-                style={{width: '300px', color: 'black', backgroundColor: 'whitesmoke'}}
-                anchorId="expert-evaluation"
-                place="top"
-                content="Застрахователната компания оценява щетите по автомобила и изплаща обезщетение в брой или по банков път. Клиентът сам се договаря и разплаща с избран от него сервиз за ремонт на автомобила."
-              />
-              <ReactTooltip
-                style={{width: '300px', color: 'black', backgroundColor: 'whitesmoke'}}
-                anchorId="trusted-service"
-                place="top"
-                content="Застрахователната компания се разплаща директно с автосервиза, който ремонтира автомобила. В този случай няма риск за клиента обезщетението да не е достатъчно за покриване на щетите."
-              />
+              {offers.map(offer => (
+                [offer.tooltipId, `${offer.tooltipId}-m`].map(anchor => (
+                  <ReactTooltip
+                    key={anchor}
+                    style={{width: '300px', color: 'black', backgroundColor: 'whitesmoke'}}
+                    anchorId={anchor}
+                    place="top"
+                    content={offer.tooltip}
+                  />
+                ))
+              ))}
             </div>
           ) : null}
         </>
