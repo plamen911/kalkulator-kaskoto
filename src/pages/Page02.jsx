@@ -29,6 +29,11 @@ export default () => {
   const goNext = async () => {
     setErrors({})
 
+    if (wheelPosition === '1') {
+      setErrors({ wheel_position: 'Автомобили с десен волан не се застраховат' })
+      return
+    }
+
     if (regCertNo && regNo === cartData.reg_no && regCertNo === cartData.reg_cert_no) {
       dispatch(cartActions.update({
         step: 3,
@@ -167,6 +172,11 @@ export default () => {
                 </FormGroup>
               </div>
             </div>
+            {errors.wheel_position && (
+              <FormFeedback style={{ display: 'block' }}>
+                {errors.wheel_position}
+              </FormFeedback>
+            )}
             <FormGroup>
               <div className="mt-3 d-flex justify-content-between">
                 <Button color="secondary" onClick={goBack}>
