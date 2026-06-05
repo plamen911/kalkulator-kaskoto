@@ -91,7 +91,7 @@ export default () => {
                   </label>
                   <select
                     id="priceSelect"
-                    className="form-control"
+                    className="form-select"
                     onChange={handleChange}
                     value={(cartData.selected_price && cartData.selected_price.insurance_amount) || ''}
                   >
