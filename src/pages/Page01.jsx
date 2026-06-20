@@ -91,7 +91,7 @@ export default () => {
         <>
           <div className="row">
             <div className="col-12 rounded" style={{backgroundColor: '#8b2131', color: 'white'}}>
-              <div className="mb-1 mt-2 mb-3">
+              <div className="mb-1 mt-2 mb-2">
                 <div className="form-group">
                   <label htmlFor="priceSelect" className="form-label">
                     За лек автомобил до 9 места и товарен до 3.5 т.
@@ -110,12 +110,12 @@ export default () => {
                     ))}
                   </select>
                   {!cartData.selected_price ? (
-                    <div className="text-center mt-2">
-                      Проверете цената си за 5 секунди
+                    <div className="d-flex align-items-center mt-2">
+                      Проверете за 2 секунди
                       <FontAwesomeIcon
                         icon={faArrowUp}
                         size="lg"
-                        className="blink-up ms-2"
+                        className="me-2 blink-up ms-auto"
                       />
                     </div>
                   ) : null}
@@ -124,7 +124,7 @@ export default () => {
             </div>
           </div>
           {!cartData.selected_price ? (
-            <div className="row g-0 mt-4 text-center">
+            <div className="row g-0 mt-5 text-center">
               {features.map((feature, index) => (
                 <div
                   key={index}
