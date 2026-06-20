@@ -110,7 +110,7 @@ export default () => {
                   </label>
                   <select
                     id="priceSelect"
-                    className="form-select"
+                    className="form-select form-select-lg"
                     onChange={handleChange}
                     value={(cartData.selected_price && cartData.selected_price.insurance_amount) || ''}
                     style={{color: '#212529', backgroundColor: '#fff'}}
@@ -143,7 +143,7 @@ export default () => {
                   className="rounded-circle d-inline-flex align-items-center justify-content-center company-color"
                   style={{width: '92px', height: '92px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
                 >
-                  <IconShieldCheck size={56} stroke={1.6}/>
+                  <IconShieldCheck size={74} stroke={1.5}/>
                 </div>
                 <h4 className="fw-bold mt-2 mb-4">Пълно Каско</h4>
               </div>
@@ -154,21 +154,16 @@ export default () => {
                       className="rounded-circle d-inline-flex align-items-center justify-content-center company-color mb-2"
                       style={{width: '66px', height: '66px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
                     >
-                      <feature.Icon size={38} stroke={1.6}/>
+                      <feature.Icon size={50} stroke={1.5}/>
                     </div>
-                    <div className="fw-bold small lh-sm">{feature.title}</div>
+                    <div className="fw-bold small lh-sm d-flex align-items-end justify-content-center" style={{minHeight: '2.5em'}}>{feature.title}</div>
                     <div className="text-muted small lh-sm">{feature.subtitle}</div>
                   </div>
                 ))}
               </div>
-              <div
-                className="text-center rounded p-3 mt-4"
-                style={{backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
-              >
-                <div>
-                  <div className="fw-bold company-color">Под 2 € на ден</div>
-                  <div className="text-muted small">Изберете няколко стойности и сравнете цените.</div>
-                </div>
+              <div className="text-center mt-4">
+                <div className="fw-bold company-color">Под 2 € на ден</div>
+                <div className="text-muted small">Изберете няколко стойности и сравнете цените.</div>
               </div>
             </div>
           ) : null}
