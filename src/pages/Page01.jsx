@@ -2,13 +2,22 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleInfo, faCheck, faArrowUp, faShieldHalved, faUser, faCar } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo, faCheck, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { Button, ListGroup, ListGroupItem } from 'reactstrap'
 
 import { cartActions } from '../store/cart'
 import Requester from '../utils/Requester'
 import { formatCurrency } from '../utils/utils'
 import Layout from '../components/layout/Layout'
+import {
+  IconShieldCheck,
+  IconUserShield,
+  IconCarCrash,
+  IconCarSuv,
+  IconParking,
+  IconCarCrane,
+  IconCarGarage,
+} from '@tabler/icons-react'
 
 import 'react-tooltip/dist/react-tooltip.css'
 import '../pulse.css'
@@ -76,9 +85,12 @@ export default () => {
   ]
 
   const features = [
-    {icon: faUser, title: 'Без завишение', subtitle: 'за млад водач'},
-    {icon: faCar, title: 'Без завишение', subtitle: 'при щета'},
-    {icon: faShieldHalved, title: 'Пътна помощ', subtitle: 'до 100 км'},
+    {Icon: IconUserShield, title: 'Без завишение', subtitle: 'за млад водач'},
+    {Icon: IconCarCrash, title: 'Без завишение', subtitle: 'при щета'},
+    {Icon: IconCarSuv, title: 'Без завишение', subtitle: 'за марки'},
+    {Icon: IconParking, title: '3 щети на паркинг', subtitle: 'без документ'},
+    {Icon: IconCarCrane, title: 'Пътна помощ', subtitle: 'до 100 км'},
+    {Icon: IconCarGarage, title: 'Доверен сервиз', subtitle: 'в цялата страна'},
   ]
 
   const discountPercents = cartData && cartData.initial_data && +cartData.initial_data.discount_percents
@@ -101,53 +113,68 @@ export default () => {
                     className="form-select"
                     onChange={handleChange}
                     value={(cartData.selected_price && cartData.selected_price.insurance_amount) || ''}
+                    style={{color: '#212529', backgroundColor: '#fff'}}
                   >
-                    <option value={null}>Изберете стойност</option>
+                    <option value={null} style={{color: '#212529', backgroundColor: '#fff'}}>Изберете стойност</option>
                     {cartData && cartData.initial_data && cartData.initial_data.amounts && cartData.initial_data.amounts.map((item, index) => (
-                      <option value={item.insurance_amount} key={index}>
+                      <option value={item.insurance_amount} key={index} style={{color: '#212529', backgroundColor: '#fff'}}>
                         {formatCurrency(item.insurance_amount)}
                       </option>
                     ))}
                   </select>
                   {!cartData.selected_price ? (
-                    <div className="d-flex align-items-center mt-2">
-                      Проверете за 2 секунди
-                      <FontAwesomeIcon
-                        icon={faArrowUp}
-                        size="lg"
-                        className="me-2 blink-up ms-auto"
-                      />
-                    </div>
+                    <>
+                      <hr className="my-2" style={{borderColor: 'rgba(255, 255, 255, 0.4)', opacity: 1}}/>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <FontAwesomeIcon icon={faArrowUp} size="lg" className="ms-3 blink-up"/>
+                        <span>Колко струва Вашето Каско?</span>
+                        <FontAwesomeIcon icon={faArrowUp} size="lg" className="me-3 blink-up"/>
+                      </div>
+                    </>
                   ) : null}
                 </div>
               </div>
             </div>
           </div>
           {!cartData.selected_price ? (
-            <div className="row g-0 mt-5 text-center">
-              {features.map((feature, index) => (
+            <div className="mt-4">
+              <div className="text-center">
                 <div
-                  key={index}
-                  className={`col-4 px-1${index > 0 ? ' border-start' : ''}`}
+                  className="rounded-circle d-inline-flex align-items-center justify-content-center company-color"
+                  style={{width: '92px', height: '92px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
                 >
-                  <div
-                    className="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
-                    style={{width: '56px', height: '56px', backgroundColor: 'rgba(139, 33, 49, 0.1)'}}
-                  >
-                    <FontAwesomeIcon icon={feature.icon} size="lg" className="company-color"/>
-                  </div>
-                  <div className="fw-bold small lh-sm">{feature.title}</div>
-                  <div className="text-muted small lh-sm">{feature.subtitle}</div>
+                  <IconShieldCheck size={56} stroke={1.6}/>
                 </div>
-              ))}
+                <h4 className="fw-bold mt-2 mb-4">Пълно Каско</h4>
+              </div>
+              <div className="row g-3 text-center">
+                {features.map((feature, index) => (
+                  <div className="col-4" key={index}>
+                    <div
+                      className="rounded-circle d-inline-flex align-items-center justify-content-center company-color mb-2"
+                      style={{width: '66px', height: '66px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
+                    >
+                      <feature.Icon size={38} stroke={1.6}/>
+                    </div>
+                    <div className="fw-bold small lh-sm">{feature.title}</div>
+                    <div className="text-muted small lh-sm">{feature.subtitle}</div>
+                  </div>
+                ))}
+              </div>
+              <div
+                className="text-center rounded p-3 mt-4"
+                style={{backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
+              >
+                <div>
+                  <div className="fw-bold company-color">Под 2 € на ден</div>
+                  <div className="text-muted small">Изберете няколко стойности и сравнете цените.</div>
+                </div>
+              </div>
             </div>
           ) : null}
           {cartData && cartData.selected_price ? (
             <div className="row">
-              <div className="col-12 mt-4">
-                <h4 className="text-center company-color">
-                  Застрахователна стойност: {formatCurrency(cartData.selected_price.insurance_amount)}
-                </h4>
+              <div className="col-12">
                 <table className="table mt-3 d-none d-md-table">
                   <thead>
                     <tr>
@@ -165,7 +192,7 @@ export default () => {
                     {offers.map(offer => (
                       <tr key={offer.type}>
                         <td>
-                          {offer.label} {` `}
+                          <span className="fw-bolder company-color">{offer.label}</span> {` `}
                           <span id={offer.tooltipId}>
                             <FontAwesomeIcon
                               icon={faCircleInfo}
@@ -199,7 +226,7 @@ export default () => {
                 <div className="d-md-none mt-3">
                   {offers.map(offer => (
                     <div key={offer.type} className="border rounded p-3 mb-3">
-                      <div className="fw-bold mb-2">
+                      <div className="fw-bolder company-color mb-2">
                         {offer.label} {` `}
                         <span id={`${offer.tooltipId}-m`}>
                           <FontAwesomeIcon
