@@ -2,6 +2,21 @@
     animation: pulse-animation 2s infinite;
 }
 
+.blink-up {
+    animation: blink-up-animation 1s ease-in-out infinite;
+}
+
+@keyframes blink-up-animation {
+    0%, 100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.2;
+        transform: translateY(-4px);
+    }
+}
+
 @keyframes pulse-animation {
     0% {
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);

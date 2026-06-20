@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleInfo, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo, faCheck, faArrowUp, faShieldHalved, faUser, faCar } from '@fortawesome/free-solid-svg-icons'
 import { Button, ListGroup, ListGroupItem } from 'reactstrap'
 
 import { cartActions } from '../store/cart'
@@ -75,6 +75,12 @@ export default () => {
     },
   ]
 
+  const features = [
+    {icon: faUser, title: 'Без завишение', subtitle: 'за млад водач'},
+    {icon: faCar, title: 'Без завишение', subtitle: 'при щета'},
+    {icon: faShieldHalved, title: 'Пътна помощ', subtitle: 'до 100 км'},
+  ]
+
   const discountPercents = cartData && cartData.initial_data && +cartData.initial_data.discount_percents
 
   return (
@@ -96,17 +102,46 @@ export default () => {
                     onChange={handleChange}
                     value={(cartData.selected_price && cartData.selected_price.insurance_amount) || ''}
                   >
-                    <option value={null}>Изберете</option>
+                    <option value={null}>Изберете стойност</option>
                     {cartData && cartData.initial_data && cartData.initial_data.amounts && cartData.initial_data.amounts.map((item, index) => (
                       <option value={item.insurance_amount} key={index}>
                         {formatCurrency(item.insurance_amount)}
                       </option>
                     ))}
                   </select>
+                  {!cartData.selected_price ? (
+                    <div className="text-center mt-2">
+                      Проверете цената си за 5 секунди
+                      <FontAwesomeIcon
+                        icon={faArrowUp}
+                        size="lg"
+                        className="blink-up ms-2"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
           </div>
+          {!cartData.selected_price ? (
+            <div className="row g-0 mt-4 text-center">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className={`col-4 px-1${index > 0 ? ' border-start' : ''}`}
+                >
+                  <div
+                    className="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                    style={{width: '56px', height: '56px', backgroundColor: 'rgba(139, 33, 49, 0.1)'}}
+                  >
+                    <FontAwesomeIcon icon={feature.icon} size="lg" className="company-color"/>
+                  </div>
+                  <div className="fw-bold small lh-sm">{feature.title}</div>
+                  <div className="text-muted small lh-sm">{feature.subtitle}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
           {cartData && cartData.selected_price ? (
             <div className="row">
               <div className="col-12 mt-4">
