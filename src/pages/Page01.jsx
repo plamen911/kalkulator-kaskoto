@@ -105,8 +105,8 @@ export default () => {
             <div className="col-12 rounded" style={{backgroundColor: '#8b2131', color: 'white'}}>
               <div className="mb-1 mt-2 mb-2">
                 <div className="form-group">
-                  <label htmlFor="priceSelect" className="form-label">
-                    За лек автомобил до 9 места и товарен до 3.5 т.
+                  <label htmlFor="priceSelect" className="form-label small text-center d-block">
+                    За лек автомобил до 9 места и товарен до 3.5 тона
                   </label>
                   <select
                     id="priceSelect"
@@ -124,10 +124,8 @@ export default () => {
                   </select>
                   {!cartData.selected_price ? (
                     <>
-                      <hr className="my-2" style={{borderColor: 'rgba(255, 255, 255, 0.4)', opacity: 1}}/>
-                      <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex align-items-center justify-content-between mt-2">
                         <FontAwesomeIcon icon={faArrowUp} size="lg" className="ms-3 blink-up"/>
-                        <span>Колко струва Вашето Каско?</span>
                         <FontAwesomeIcon icon={faArrowUp} size="lg" className="me-3 blink-up"/>
                       </div>
                     </>
@@ -139,31 +137,29 @@ export default () => {
           {!cartData.selected_price ? (
             <div className="mt-4">
               <div className="text-center">
-                <div
-                  className="rounded-circle d-inline-flex align-items-center justify-content-center company-color"
-                  style={{width: '92px', height: '92px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
-                >
-                  <IconShieldCheck size={74} stroke={1.5}/>
+                <h4 className="fw-bold" style={{color: '#4b4f54'}}>Пълно Каско</h4>
+                <div className="text-center mb-4">
+                  <h6 className="fw-bold company-color">Под 2 &euro; на ден</h6>
+                  <div className="text-muted small">Изберете няколко стойности и сравнете цените.</div>
                 </div>
-                <h4 className="fw-bold mt-2 mb-4">Пълно Каско</h4>
               </div>
               <div className="row g-3 text-center">
                 {features.map((feature, index) => (
                   <div className="col-4" key={index}>
                     <div
                       className="rounded-circle d-inline-flex align-items-center justify-content-center company-color mb-2"
-                      style={{width: '66px', height: '66px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
+                      style={{width: '52px', height: '52px', backgroundColor: 'rgba(139, 33, 49, 0.08)'}}
                     >
-                      <feature.Icon size={50} stroke={1.5}/>
+                      <feature.Icon size={36} stroke={1.5}/>
                     </div>
-                    <div className="fw-bold small lh-sm d-flex align-items-end justify-content-center" style={{minHeight: '2.5em'}}>{feature.title}</div>
-                    <div className="text-muted small lh-sm">{feature.subtitle}</div>
+                    <div className="fw-bold small lh-sm d-flex align-items-end justify-content-center company-color" style={{minHeight: '2.5em'}}>
+                      {feature.title}
+                    </div>
+                    <div className="text-muted small lh-sm">
+                      {feature.subtitle}
+                    </div>
                   </div>
                 ))}
-              </div>
-              <div className="text-center mt-4">
-                <div className="fw-bold company-color">Под 2 € на ден</div>
-                <div className="text-muted small">Изберете няколко стойности и сравнете цените.</div>
               </div>
             </div>
           ) : null}
