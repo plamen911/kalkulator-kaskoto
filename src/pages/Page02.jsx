@@ -8,6 +8,7 @@ import CascoCard from '../components/layout/CascoCard'
 import Requester from '../utils/Requester.js'
 import { parseErrors } from '../utils/utils.js'
 import MyClipLoader from '../components/ui/MyClipLoader.jsx'
+import MessageModal from '../components/ui/MessageModal.jsx'
 
 export default () => {
   const cartData = useSelector(state => state.cart.data)
@@ -15,6 +16,7 @@ export default () => {
 
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
+  const [contactModal, setContactModal] = useState({ open: false, messages: [] })
   const [regNo, setRegNo] = useState(cartData.reg_no)
   const [regCertNo, setRegCertNo] = useState(cartData.reg_cert_no)
   const [usageId, setUsageId] = useState(cartData.usage_id)
@@ -26,6 +28,10 @@ export default () => {
 
   const goBack = () => {
     dispatch(cartActions.update({step: 1}))
+  }
+
+  const closeContactModal = () => {
+    setContactModal({ open: false, messages: [] })
   }
 
   const goNext = async () => {
@@ -49,20 +55,29 @@ export default () => {
       validationErrors.reg_cert_no = 'Номерът на талон трябва да съдържа 9 цифри.'
     }
 
+    if (Object.keys(validationErrors).length) {
+      setErrors(validationErrors)
+      return
+    }
+
+    // Dead-end business rules: this product can't insure these vehicles, so the
+    // user needs the broker — surface them in the contact modal, not inline.
+    const blockingMessages = []
+
     if (wheelPosition === '1') {
-      validationErrors.wheel_position = 'Автомобили с десен волан не се застраховат по този продукт. Свържете се с нас за индивидуална оферта.'
+      blockingMessages.push('Автомобили с десен волан не се застраховат по този продукт.')
     }
 
     if (cabriolet === '1') {
-      validationErrors.cabriolet = 'Кабриолети не се застраховат по този продукт. Свържете се с нас за индивидуална оферта.'
+      blockingMessages.push('Кабриолети не се застраховат по този продукт.')
     }
 
     if (taxiTraining === '1') {
-      validationErrors.taxi_training = 'Такси и учебни автомобили не се застраховат по този продукт. Свържете се с нас за индивидуална оферта.'
+      blockingMessages.push('Такси и учебни автомобили не се застраховат по този продукт.')
     }
 
-    if (Object.keys(validationErrors).length) {
-      setErrors(validationErrors)
+    if (blockingMessages.length) {
+      setContactModal({ open: true, messages: blockingMessages })
       return
     }
 
@@ -92,11 +107,18 @@ export default () => {
           }))
         } else {
           setLoading(false)
-          setErrors({reg_no: 'Error getting vehicle data...'})
+          setContactModal({
+            open: true,
+            messages: ['Не успяхме да намерим данни за вашето МПС. Моля, проверете въведените данни или се свържете с нас.'],
+          })
         }
       } catch (err) {
         setLoading(false)
-        setErrors(parseErrors(err))
+        const serverMessages = Object.values(parseErrors(err)).filter(Boolean)
+        setContactModal({
+          open: true,
+          messages: ['Не успяхме да намерим данни за вашето МПС.', ...serverMessages],
+        })
       }
     }
   }
@@ -212,11 +234,6 @@ export default () => {
                 </FormGroup>
               </div>
             </div>
-            {errors.wheel_position && (
-              <FormFeedback style={{ display: 'block' }}>
-                {errors.wheel_position}
-              </FormFeedback>
-            )}
             <div className="d-flex justify-start mt-3">
               <Label for="cabriolet-yes" className="mr-3 mb-0">
                 КАБРИОЛЕТ?
@@ -263,11 +280,6 @@ export default () => {
                 </FormGroup>
               </div>
             </div>
-            {errors.cabriolet && (
-              <FormFeedback style={{ display: 'block' }}>
-                {errors.cabriolet}
-              </FormFeedback>
-            )}
             <div className="d-flex justify-start mt-3">
               <Label for="taxi-training-yes" className="mr-3 mb-0">
                 ТАКСИ/УЧЕБЕН?
@@ -314,11 +326,6 @@ export default () => {
                 </FormGroup>
               </div>
             </div>
-            {errors.taxi_training && (
-              <FormFeedback style={{ display: 'block' }}>
-                {errors.taxi_training}
-              </FormFeedback>
-            )}
             <FormGroup>
               <div className="mt-3 d-flex justify-content-between">
                 <Button color="secondary" onClick={goBack}>
@@ -332,6 +339,11 @@ export default () => {
           </Form>
         )}
       </CascoCard>
+      <MessageModal
+        isOpen={contactModal.open}
+        toggle={closeContactModal}
+        messages={contactModal.messages}
+      />
     </Layout>
   )
 }
